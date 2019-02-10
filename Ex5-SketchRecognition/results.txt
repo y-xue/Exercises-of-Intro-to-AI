@@ -1,0 +1,150 @@
+Fei Luo (fla414), Ye Xue(yxe836)
+All group members were present and contributing during all work on this project.
+
+1. We tried distance from side of sketch.
+
+2. They are continuous. However We also have tried to discretize it and see its performance.
+
+3. Choice of the threshold of discrete 'distance from side of sketch' could based on the threshold of length, if we assume threshold of length is optimal. Since distance from side of sketch is smaller or equal to the length, the threshold of distance could be slightly smaller that threshold of length.
+Another methed of choosing threshold is looking at P(feature|state) and distance of strokes in data. Assume 'text' is the major states that appears most in a sequence of true labels and let distance = 1 if distance greater than threshold, else distance = 0. We are trying to make |C| / |U| approximate to P(distance = 1|text), where C = {stroke|distance > threshold} and U is the set of all strokes.
+
+4. Our classifier uses length (discrete), curvature (continuous) and distance (continuous) as features and achieves a better precision than basic classifier which only uses length (discrete).
+
+
+Test:
+
+Training set contains all files. Test the performace of different combination of features on three testing set (6 files whose name starts with '128', 6 files whose name starts with '1585' and 5 files whose name starts with '2468').
+
+******************************************************************
+******* Our classifier: (testing on files start with 128) ********
+******************************************************************
+
+{'text': {'text': 18, 'drawing': 1}, 'drawing': {'text': 1, 'drawing': 21}}
+{'text': {'text': 1, 'drawing': 3}, 'drawing': {'text': 0, 'drawing': 5}}
+{'text': {'text': 13, 'drawing': 1}, 'drawing': {'text': 9, 'drawing': 18}}
+{'text': {'text': 8, 'drawing': 1}, 'drawing': {'text': 2, 'drawing': 19}}
+{'text': {'text': 35, 'drawing': 1}, 'drawing': {'text': 2, 'drawing': 27}}
+{'text': {'text': 24, 'drawing': 0}, 'drawing': {'text': 8, 'drawing': 21}}
+
+106 true text, 7 drawing, 99 text
+133 true drawing, 22 text, 111 drawing
+
+Recall(text): 		99 / 106 = 93.4%
+Precision(text):	99 / 121 = 81.8%
+F1(text):			1.528 / 1.752 = 87.2%
+
+Recal(drawing):		111 / 133 = 83.5%
+Precision(drawing):	111 / 118 = 94.0%
+F1(drawing):		1.570 / 1.775 = 88.5%
+
+
+******************************************************************
+****** Basic classifier: (testing on files start with 128) *******
+******************************************************************
+
+{'text': {'text': 2, 'drawing': 17}, 'drawing': {'text': 0, 'drawing': 22}}
+{'text': {'text': 0, 'drawing': 4}, 'drawing': {'text': 0, 'drawing': 5}}
+{'text': {'text': 2, 'drawing': 12}, 'drawing': {'text': 0, 'drawing': 27}}
+{'text': {'text': 2, 'drawing': 7}, 'drawing': {'text': 3, 'drawing': 18}}
+{'text': {'text': 17, 'drawing': 19}, 'drawing': {'text': 0, 'drawing': 29}}
+{'text': {'text': 20, 'drawing': 4}, 'drawing': {'text': 0, 'drawing': 29}}
+
+106 true text, 63 drawing, 43 text
+133 true drawing, 3 text, 130 drawing
+
+Recall(text): 		43 / 106 = 40.6%
+Precision(text):	43 / 46 = 93.5%
+F1(text):			0.759 / 1.341 = 56.6%
+
+Recal(drawing):		130 / 133 = 97.7%
+Precision(drawing):	130 / 193 = 67.4%
+F1(drawing):		1.316 / 1.651 = 79.7%
+
+As shown above, Our classifier is better than the basic classifier. Similar results can be drawn from tests on another two testing sets.
+
+
+
+
+Appendix:
+
+Result from tests on files start with 2468:
+*****************************************************
+****                   basic                     ****
+*****************************************************
+{'text': {'text': 13}, 'drawing': {'text': 38, 'drawing': 1}}
+{'text': {'text': 6}, 'drawing': {'text': 31, 'drawing': 10}}
+{'text': {'text': 9, 'drawing': 2}, 'drawing': {'text': 11, 'drawing': 3}}
+{'text': {'text': 8, 'drawing': 1}, 'drawing': {'text': 23}}
+{'text': {'text': 10}, 'drawing': {'text': 21, 'drawing': 2}}
+{'text': {'text': 10}, 'drawing': {'text': 16}}
+
+*****************************************************
+****              length + distance              ****
+*****************************************************
+{'text': {'text': 13}, 'drawing': {'text': 36, 'drawing': 3}}
+{'text': {'text': 5, 'drawing': 1}, 'drawing': {'text': 31, 'drawing': 10}}
+{'text': {'text': 11}, 'drawing': {'text': 8, 'drawing': 6}}
+{'text': {'text': 9}, 'drawing': {'text': 22, 'drawing': 1}}
+{'text': {'text': 10}, 'drawing': {'text': 22, 'drawing': 1}}
+{'text': {'text': 10}, 'drawing': {'text': 14, 'drawing': 2}}
+
+*****************************************************
+****         length + distance + curvature       ****
+*****************************************************
+{'text': {'text': 13}, 'drawing': {'text': 35, 'drawing': 4}}
+{'text': {'text': 5, 'drawing': 1}, 'drawing': {'text': 30, 'drawing': 11}}
+{'text': {'text': 11}, 'drawing': {'text': 8, 'drawing': 6}}
+{'text': {'text': 9}, 'drawing': {'text': 22, 'drawing': 1}}
+{'text': {'text': 10}, 'drawing': {'text': 22, 'drawing': 1}}
+{'text': {'text': 10}, 'drawing': {'text': 14, 'drawing': 2}}
+
+*****************************************************
+****               length + curvature            ****
+*****************************************************
+{'text': {'text': 13}, 'drawing': {'text': 39}}
+{'text': {'text': 6}, 'drawing': {'text': 27, 'drawing': 14}}
+{'text': {'text': 11}, 'drawing': {'text': 12, 'drawing': 2}}
+{'text': {'text': 9}, 'drawing': {'text': 23}}
+{'text': {'text': 10}, 'drawing': {'text': 23}}
+{'text': {'text': 10}, 'drawing': {'text': 16}}
+
+
+
+
+Result from tests on files start with 1585:
+*****************************************************
+****                   basic                     ****
+*****************************************************
+{'text': {'drawing': 15}, 'drawing': {'drawing': 46}}
+{'text': {'text': 6, 'drawing': 5}, 'drawing': {'drawing': 23}}
+{'text': {'text': 10}, 'drawing': {'text': 22, 'drawing': 6}}
+{'text': {'text': 9}, 'drawing': {'text': 20, 'drawing': 1}}
+{'text': {'text': 32, 'drawing': 3}, 'drawing': {'text': 25, 'drawing': 12}}
+
+*****************************************************
+****         length + distance + curvature       ****
+*****************************************************
+{'text': {'text': 10, 'drawing': 5}, 'drawing': {'drawing': 46}}
+{'text': {'text': 11}, 'drawing': {'text': 2, 'drawing': 21}}
+{'text': {'text': 10}, 'drawing': {'text': 22, 'drawing': 6}}
+{'text': {'text': 9}, 'drawing': {'text': 19, 'drawing': 2}}
+{'text': {'text': 28, 'drawing': 7}, 'drawing': {'text': 19, 'drawing': 18}}
+
+*****************************************************
+****              length + distance              ****
+*****************************************************
+{'text': {'text': 10, 'drawing': 5}, 'drawing': {'drawing': 46}}
+{'text': {'text': 11}, 'drawing': {'text': 2, 'drawing': 21}}
+{'text': {'text': 10}, 'drawing': {'text': 22, 'drawing': 6}}
+{'text': {'text': 9}, 'drawing': {'text': 19, 'drawing': 2}}
+{'text': {'text': 28, 'drawing': 7}, 'drawing': {'text': 17, 'drawing': 20}}
+
+*****************************************************
+****               length + curvature            ****
+*****************************************************
+{'text': {'text': 1, 'drawing': 14}, 'drawing': {'drawing': 46}}
+{'text': {'text': 8, 'drawing': 3}, 'drawing': {'drawing': 23}}
+{'text': {'text': 9, 'drawing': 1}, 'drawing': {'text': 27, 'drawing': 1}}
+{'text': {'text': 9}, 'drawing': {'text': 21}}
+{'text': {'text': 35}, 'drawing': {'text': 32, 'drawing': 5}}
+
